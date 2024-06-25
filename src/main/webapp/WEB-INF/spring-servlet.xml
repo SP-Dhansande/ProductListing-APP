@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:p="http://www.springframework.org/schema/p"
+	 xmlns:tx="http://www.springframework.org/schema/tx"
+	 xmlns:mvc="http://www.springframework.org/schema/mvc"
+	  xmlns:jsp="http://www.springframework.org/schema/jsp"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+	 http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd 
+     http://www.springframework.org/schema/jsp
+    http://www.springframework.org/schema/jsp/spring-jsp.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+     
+     <tx:annotation-driven/> 
+   <context:component-scan base-package="productlistingapp"/>
+   
+  <!--  <mvc:annotation-driven/>
+   <mvc:resources location="/WEB-INF/resources/" mapping="/resources/**"/> -->
+   
+    <bean 
+    class="org.springframework.web.servlet.view.InternalResourceViewResolver" name="viewResolver" >
+    		<property name="prefix" value="/WEB-INF/views/" />
+    	    <property name="suffix" value=".jsp" />
+       </bean>
+       <!-- multipartresolver configuration -->
+       <!-- <bean class=" org.springframework.web.multipart.commons.CommonsMultipartResolver" name= "multipartResolver"/> -->
+     
+      <!-- Datasource configuration=============== -->
+    <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" name="ds">
+   <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+    <property name="url" value="jdbc:mysql://localhost:3306/productlistingapp"/>
+    <property name="username" value="root"/>
+    <property name="password" value="Admin#123"/>
+    </bean>
+    
+    
+       <!-- sessionfactory ref configuration============= -->
+    <bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" name="lsf">
+    <!-- datasource -->
+    <property name="dataSource" ref="ds"></property>
+    <!-- hibernateproperties -->
+    <property name="hibernateProperties" >
+    <props>
+    <prop key="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</prop>
+    <prop key="hibernate.show_sql">true</prop>
+    <prop key="hibernate.hbm2ddl.auto">update</prop>
+    </props>
+    
+    </property>
+    <!-- anoteded classes -->
+    <property name="annotatedClasses">
+    <list>
+    <value>productlistingapp.model.Product</value>
+    
+    </list>
+    </property>
+    
+    </bean>
+    
+          <!-- hibernatetemplate configuration==========  -->
+          
+    <bean class="org.springframework.orm.hibernate5.HibernateTemplate" name="hibernateTemplate">
+    <property name="sessionFactory" ref="lsf"></property>
+    </bean>
+    
+    
+    <bean class="org.springframework.orm.hibernate5.HibernateTransactionManager" name="transactionManager">
+    <property name="sessionFactory" ref="lsf"></property>
+    </bean>  
+    
+    </beans>
