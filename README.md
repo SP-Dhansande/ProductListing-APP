@@ -1,0 +1,1 @@
+A web application built with Java and advanced Java technologies, featuring SpringMVC for robust backend functionality, JSP for dynamic web page rendering, and Bootstrap for  user interface design. This app allows businesses to efficiently manage and showcase their products online, providing a seamless browsing experience for customers.
